@@ -625,6 +625,9 @@ footer {
         align-items: center;
         gap: 1rem;
     }
+    .skill-item i {
+        font-size: 2rem;
+    }
 }
 
 /* Extra Small Devices (iPhone SE, small Androids) */
