@@ -629,8 +629,8 @@ footer {
 
 /* Extra Small Devices (iPhone SE, small Androids) */
 @media (max-width: 480px) {
-    .hero-content {
-        margin-top: 50px;
+    .hero-tag {
+        margin-top: 150px;
     }
     .hero-content h1 {
         font-size: 2.2rem;
