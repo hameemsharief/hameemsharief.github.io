@@ -1,57 +1,76 @@
-// Custom Cursor Logic
+// 1. Custom Cursor Logic (Disabled on mobile via CSS, but safe here)
 const cursor = document.getElementById('cursor');
-document.addEventListener('mousemove', e => {
-    if(cursor) {
+document.addEventListener('mousemove', (e) => {
+    if (cursor) {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
     }
 });
 
-// Mobile Menu Toggle Logic
+// 2. Mobile Menu Toggle Logic
 const mobileMenu = document.getElementById('mobile-menu');
 const navLinks = document.querySelector('.nav-links');
+const body = document.body;
 
-mobileMenu.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-    // Change icon between Bars and X
-    const icon = mobileMenu.querySelector('i');
-    icon.classList.toggle('fa-bars');
-    icon.classList.toggle('fa-times');
-});
+if (mobileMenu) {
+    mobileMenu.addEventListener('click', () => {
+        const isActive = navLinks.classList.toggle('active');
+        
+        // Toggle body scroll - prevents "double scrolling" on mobile
+        body.style.overflow = isActive ? 'hidden' : 'auto';
 
-// Close menu when a link is clicked
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        mobileMenu.querySelector('i').classList.add('fa-bars');
-        mobileMenu.querySelector('i').classList.remove('fa-times');
-    });
-});
-
-// Navbar Scroll effect
-window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    if (window.scrollY > 100) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
-});
-
-// Copy Email Function
-function copyEmail() {
-    const email = document.getElementById('emailVal').innerText;
-    const btn = document.getElementById('copyBtn');
-    navigator.clipboard.writeText(email).then(() => {
-        const original = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i> <span>Copied!</span>';
-        setTimeout(() => { btn.innerHTML = original; }, 2000);
+        // Change icon between Bars and X
+        const icon = mobileMenu.querySelector('i');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
     });
 }
 
-// Form Submission
+// Close mobile menu when a link is clicked
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        body.style.overflow = 'auto'; // Re-enable scrolling
+        const icon = mobileMenu.querySelector('i');
+        icon.classList.add('fa-bars');
+        icon.classList.remove('fa-times');
+    });
+});
+
+// 3. Navbar Scroll Effect
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+    } else {
+        nav.classList.remove('scrolled');
+    }
+});
+
+// 4. Copy Email Function
+function copyEmail() {
+    const email = document.getElementById('emailVal').innerText;
+    const btn = document.getElementById('copyBtn');
+    
+    navigator.clipboard.writeText(email).then(() => {
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> <span>Copied!</span>';
+        
+        // Feedback duration
+        setTimeout(() => { 
+            btn.innerHTML = originalContent; 
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
+}
+
+// 5. Form Submission (Web3Forms)
 const contactForm = document.getElementById('contactForm');
 const successMsg = document.getElementById('success-msg');
 const submitBtn = document.getElementById('submitBtn');
 
-if(contactForm) {
+if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
         submitBtn.innerText = "Sending...";
@@ -70,9 +89,12 @@ if(contactForm) {
             body: json
         })
         .then(async (response) => {
-            if (response.status == 200) {
+            if (response.status === 200) {
+                // Success state
                 contactForm.style.display = "none";
                 successMsg.style.display = "block";
+                
+                // Reset and redirect after 3 seconds (better for mobile than 5s)
                 setTimeout(() => {
                     window.location.href = "#home";
                     setTimeout(() => {
@@ -81,28 +103,35 @@ if(contactForm) {
                         successMsg.style.display = "none";
                         submitBtn.innerText = "Send Message";
                         submitBtn.disabled = false;
-                    }, 1000);
-                }, 5000);
+                    }, 800);
+                }, 3000);
             } else {
-                alert("Something went wrong.");
+                alert("Something went wrong. Please try again.");
                 submitBtn.disabled = false;
+                submitBtn.innerText = "Send Message";
             }
         })
         .catch(error => {
-            console.log(error);
-            alert("Submission failed.");
+            console.error(error);
+            alert("Submission failed. Check your connection.");
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Send Message";
         });
     });
 }
 
-// Smooth Scroll
+// 6. Smooth Scroll for all anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth'
+        const targetId = this.getAttribute('href');
+        if (targetId === "#") return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
     });

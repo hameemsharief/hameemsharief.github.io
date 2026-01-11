@@ -517,3 +517,128 @@ footer {
         font-size: inherit; 
     }
 }
+
+/* --- ENHANCED MOBILE RESPONSIVENESS --- */
+
+@media (max-width: 968px) {
+    /* Restore standard cursor for touch devices */
+    #cursor { display: none !important; }
+    * { cursor: auto !important; }
+
+    /* Show hamburger icon */
+    .menu-toggle { display: block; }
+
+    /* Navigation Links Mobile Design */
+    .nav-links {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        height: 100vh;
+        width: 80%; /* Slightly wider for better readability */
+        background: rgba(15, 23, 42, 0.98); /* Solid dark background */
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        gap: 2.5rem;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    /* Hero Section Adjustments */
+    .hero-content h1 {
+        font-size: 2.8rem; /* Scale down for mobile */
+        line-height: 1.2;
+    }
+
+    .email-bar {
+        flex-direction: column; /* Stack email and copy button */
+        border-radius: 20px;
+        padding: 1.5rem;
+        width: 100%;
+        max-width: 300px;
+        gap: 1rem;
+    }
+
+    .cta-group {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 2rem;
+    }
+
+    /* Grid Resets for Sections */
+    .about-grid, 
+    .skills-bento, 
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr; /* Stack stats on small phones */
+    }
+
+    /* Contact Card Flip */
+    .contact-card {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem;
+        border-radius: 20px;
+        gap: 3rem;
+    }
+
+    .contact-card h2 {
+        font-size: 2.2rem !important;
+        text-align: center;
+    }
+
+    .contact-form-modern {
+        padding: 1.5rem;
+    }
+
+    /* Project Cards */
+    #projects {
+        padding: 5rem 1rem;
+    }
+    
+    #projects > div {
+        grid-template-columns: 1fr !important; /* Force single column */
+    }
+
+    .project-img-modern {
+        height: 200px;
+    }
+
+    /* Footer adjustments */
+    .footer-left {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+/* Extra Small Devices (iPhone SE, small Androids) */
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
