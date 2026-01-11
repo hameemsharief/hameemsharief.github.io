@@ -551,10 +551,6 @@ footer {
     }
 
     /* Hero Section Adjustments */
-    
-    .hero-content {
-        padding-top: 100px; /* More space on mobile */
-    }
     .hero-content h1 {
         font-size: 2.8rem; /* Scale down for mobile */
         line-height: 1.2;
@@ -634,14 +630,12 @@ footer {
 /* Extra Small Devices (iPhone SE, small Androids) */
 @media (max-width: 480px) {
     .hero-content {
-        margin-top: 100px !important;
+        margin-top: 50px;
     }
     .hero-content h1 {
         font-size: 2.2rem;
     }
-    .hero-content span {
-        margin-top: 100px;
-    }
+    
     .section-header h2 {
         font-size: 2rem;
     }
